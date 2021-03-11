@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
+
+
 import unittest
+
+from six import text_type, PY3
 
 from cypresspoint.spath import splunk_dot_notation
 
@@ -19,7 +24,7 @@ class TestSpath(unittest.TestCase):
 
     def test_invalid_field_name(self):
         f = splunk_dot_notation
-        self.assertEqual(f({"_a": 1, "b": 2, }), {"a": 1, "b": 2})
+        self.assertEqual(f({"_a": 1, "b": 2}), {"a": 1, "b": 2})
         self.assertEqual(f({"$junk": "apple"}), {"junk": "apple"})
         self.assertEqual(f({"ca$h": "apple"}), {"ca_h": "apple"})
 
@@ -30,7 +35,7 @@ class TestSpath(unittest.TestCase):
         f = splunk_dot_notation
 
         with self.assertRaises(TypeError):
-            # Sometimes this fails?????
+            # Sometimes this doesn't raise an exception???
             splunk_dot_notation({"field": tuple()})
 
         with self.assertRaises(TypeError):
@@ -53,7 +58,6 @@ class TestSpath(unittest.TestCase):
 
     def test_unicode(self):
         # Reproduce bug found between Python 2 vs 3
-        from six import text_type
         splunk_dot_notation({"a": text_type("value")})
 
     def test_bool_to_text(self):
@@ -62,6 +66,13 @@ class TestSpath(unittest.TestCase):
             "f": False
         }
         self.assertEqual(splunk_dot_notation(d), {"t": "true", "f": "false"})
+
+    @unittest.skipIf(PY3, "Long datatype doesn't exist in Python 3")
+    @unittest.expectedFailure   # No supported yet
+    def test_long(self):
+        # Wrap this in an eval to keep python 3 from throwing a SyntaxError
+        l = eval("100L")
+        self.assertEqual(splunk_dot_notation({"a": l}), {"a": l})
 
     def test_nested01(self):
         d = {
