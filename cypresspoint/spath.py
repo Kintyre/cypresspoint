@@ -1,4 +1,5 @@
 import re
+from six import text_type
 
 
 def sanitize_fieldname(field):
@@ -21,13 +22,14 @@ def dict_to_splunk_fields(obj, prefix=()):
             key = sanitize_fieldname(key)
             output.extend(dict_to_splunk_fields(value, prefix=prefix+(key,)))
     elif isinstance(obj, (list, list)):
+        # Why (list, list)???
         if prefix:
             prefix = prefix[:-1] + (prefix[-1] + "{}",)
             for item in obj:
                 output.extend(dict_to_splunk_fields(item, prefix=prefix))
     elif isinstance(obj, bool):
         output.append((prefix, "true" if obj else "false"))
-    elif isinstance(obj, (str, int, float)) or obj is None:
+    elif isinstance(obj, (text_type, int, float)) or obj is None:
         output.append((prefix, obj))
     else:
         raise TypeError("Unsupported datatype {}".format(type(obj)))
