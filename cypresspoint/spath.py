@@ -1,7 +1,6 @@
 import re
 
 
-
 def sanitize_fieldname(field):
     clean = re.sub(r'[^A-Za-z0-9_.{}\[\]-]', "_", field)
     # Remove leading/trailing underscores
@@ -42,7 +41,8 @@ def splunk_dot_notation(obj):
     """
     d = {}
     if not isinstance(obj, dict):
-        raise ValueError("Expected obj to be a dictionary, received {}".format(type(obj)))
+        raise ValueError("Expected obj to be a dictionary, received {}"
+                         .format(type(obj)))
     for field_pair, value in dict_to_splunk_fields(obj):
         field_name = ".".join(field_pair)
         if field_name in d:
@@ -52,5 +52,3 @@ def splunk_dot_notation(obj):
         else:
             d[field_name] = value
     return d
-
-

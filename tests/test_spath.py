@@ -42,7 +42,7 @@ class TestSpath(unittest.TestCase):
 
     def test_bad_input(self):
         with self.assertRaises(ValueError):
-            splunk_dot_notation([{"a":1},{"a":2}])
+            splunk_dot_notation([{"a": 1}, {"a": 2}])
 
     '''
     #@unittest.expectedFailure
@@ -61,7 +61,7 @@ class TestSpath(unittest.TestCase):
             "t": True,
             "f": False
         }
-        self.assertEqual(splunk_dot_notation(d), {"t": "true", "f":"false"})
+        self.assertEqual(splunk_dot_notation(d), {"t": "true", "f": "false"})
 
     def test_nested01(self):
         d = {

@@ -1,0 +1,31 @@
+# See http://pre-commit.com for more information
+# See http://pre-commit.com/hooks.html for more hooks
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v3.4.0
+  hooks:
+    - id: trailing-whitespace
+      exclude: \.md$
+    - id: end-of-file-fixer
+    - id: check-ast
+    - id: check-added-large-files
+      args: [ '--maxkb=200' ]
+    - id: check-merge-conflict
+    - id: detect-private-key
+    - id: mixed-line-ending
+      args: [ '--fix=lf' ]
+      exclude: (\.bat|\.csv)$
+
+- repo: local
+  hooks:
+    - id: cypresspoint-unittest
+      name: Run all unit tests for Cypress Point
+      language: python
+      entry: python setup.py test
+      types: [ python ]
+      pass_filenames: false
+
+- repo: https://github.com/pre-commit/mirrors-autopep8
+  rev: v1.5.4
+  hooks:
+    - id: autopep8

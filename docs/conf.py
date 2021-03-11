@@ -18,11 +18,11 @@
 # relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 #
+import cypresspoint
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-import cypresspoint
 
 # -- General configuration ---------------------------------------------
 
@@ -158,6 +158,3 @@ texinfo_documents = [
      'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-
