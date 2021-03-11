@@ -68,10 +68,8 @@ class TestSpath(unittest.TestCase):
         self.assertEqual(splunk_dot_notation(d), {"t": "true", "f": "false"})
 
     @unittest.skipIf(PY3, "Long datatype doesn't exist in Python 3")
-    @unittest.expectedFailure   # No supported yet
     def test_long(self):
-        # Wrap this in an eval to keep python 3 from throwing a SyntaxError
-        l = eval("100L")
+        l = long(10000000000000000000000000000)
         self.assertEqual(splunk_dot_notation({"a": l}), {"a": l})
 
     def test_nested01(self):
