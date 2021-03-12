@@ -1,8 +1,14 @@
+from __future__ import unicode_literals
+
+
 def _monkey_patch_splunk_xml_parser():
     """ Need to return "APP", so we know which app contains that stanzas where we update the inputs.conf file.
 
     <stanza name="mod_input://MyInput" app="search">
     """
+    # We store the 'app' in '__app' for later access.  This was chosen because
+    # '__' is never used by apps, and it fits with other workarounds already
+    # present in the splunk-sdk.
 
     import splunklib.modularinput.utils
 
@@ -13,7 +19,7 @@ def _monkey_patch_splunk_xml_parser():
             if child.tag == child_node_tag:
                 if child_node_tag == "stanza":
                     data[child.get("name")] = {}
-                    # My change.  Because '__' is never used by apps, and that's the kind of wonky crap the splunk-sdk does ;-(
+                    # Added line here:
                     data[child.get("name")]["__app"] = child.get("app", None)
                     for param in child:
                         data[child.get("name")][param.get("name")] = parse_parameters(param)

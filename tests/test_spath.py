@@ -14,7 +14,6 @@ from cypresspoint.spath import splunk_dot_notation
 class TestSpath(unittest.TestCase):
 
     def test_simple_object(self):
-        """Test something."""
         test = {
             "a": 1,
             "b": 2,
