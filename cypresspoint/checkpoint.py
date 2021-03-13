@@ -28,10 +28,11 @@ class ModInputCheckpoint(object):
         self.input_name = input_name
         self.filename = self._safe_filename(checkpoint_dir, input_name)
         self._data = None
-        self.default_item = {}
+        self.default_item = KeyError
         self.updates = 0
 
     def __del__(self):
+        # XXX: Review this.  What are the rules about raising an exception in __del__; also, no guarantee this will be called.
         if self.updates > 0:
             raise Exception("You forgot to dump the checkpoint data.   Changes not saved!")
 
@@ -93,6 +94,8 @@ class ModInputCheckpoint(object):
         try:
             return self._data[item]
         except KeyError:
+            if isinstance(self.default_item, Exception):
+                raise self.default_item(item)
             return deepcopy(self.default_item)
 
     def get(self, item, default=NotSet):
