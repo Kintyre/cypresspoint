@@ -18,10 +18,10 @@
 # relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
 #
-import cypresspoint
 import os
 import sys
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('..'))  # nopep8
+import cypresspoint
 
 
 # -- General configuration ---------------------------------------------
@@ -155,6 +155,6 @@ texinfo_documents = [
      u'Cypress Point Documentation',
      author,
      'cypresspoint',
-     'One line description of project.',
+     'Python helpers for building Splunk Add ons',
      'Miscellaneous'),
 ]
