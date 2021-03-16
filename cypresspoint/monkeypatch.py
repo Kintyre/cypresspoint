@@ -1,3 +1,8 @@
+""" Hot in-place fixes for splunklib (Splunk's Python SDK)
+
+NOTE: Simply importing this module will activate the monkeypatch.
+"""
+
 from __future__ import unicode_literals
 
 
@@ -5,6 +10,9 @@ def _monkey_patch_splunk_xml_parser():
     """ Need to return "APP", so we know which app contains that stanzas where we update the inputs.conf file.
 
     <stanza name="mod_input://MyInput" app="search">
+
+    Hopefully this becomes unnecessary in the future:
+    https://github.com/splunk/splunk-sdk-python/pull/371
     """
     # We store the 'app' in '__app' for later access.  This was chosen because
     # '__' is never used by apps, and it fits with other workarounds already

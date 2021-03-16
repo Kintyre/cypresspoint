@@ -16,10 +16,11 @@ HIDDEN_PASSWORD = "*" * 8
 
 class ScriptWithSimpleSecret(Script):
     """ Class that extends Splunk's default 'Script' that allows for very basic
-    storage of a secrte value.  Note that this techincally results in a
+    storage of a secret value.  Note that this techincally results in a
     race-condition where the unencrypted secret is exposed for some short period
-    oftime.  Therefore this shouldn't be used in high security scenarios or on
-    highly active servers, but for private use apps, this is often "good enough".
+    of time.  Therefore this shouldn't be used in high security scenarios or on
+    servers with many snooping users, but for private use apps on a dedicated
+    data onboarding forwarder, this approach is often "good enough".
     """
     secret_field = "secret"
 
@@ -27,7 +28,25 @@ class ScriptWithSimpleSecret(Script):
         super(ScriptWithSimpleSecret, self).__init__(*args, **kwargs)
         self.logger = getLogger(self.__class__.__name__)
 
-    def handle_secret(self, input_name, password):
+    def handle_secret(self, input_name, password, app=None):
+        """
+        Get, Set, or Update secret field as needed.
+
+        This command will encrypt any clear-text password and mask it's value in
+        ``inputs.conf``.  If a clear-text password is not given, then it's assumed
+        to have been previously saved and will be loaded from ``passwords.conf``
+
+        :param str input_name: Stanza in ``inputs.conf`` of the modular input
+        :param str password: The recipient of the message
+        :param app: The splunk app namesspace to use for REST interactions
+                    against inputs and password endpoints
+        :type app: str or None
+        :return: the clear-text password
+        :rtype: str
+        """
+        # type: (str, str, str) -> str
+        if app:
+            self.service.namespace.app["app"] = app
         field = self.secret_field
         logger = self.logger
         scheme, name = input_name.split("://", 1)

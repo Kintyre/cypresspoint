@@ -6,7 +6,11 @@ These should go away when Splunk 7.3 support is dropped.
 
 
 def dt_to_epoch(ts):
-    # type: (datetime) -> int
+    """ Convert datetime to an Unix epoch value
+
+    :param datetime ts: timestamp
+    :rtype: int
+    """
     try:
         # Python 3
         return int(ts.timestamp())

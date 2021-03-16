@@ -9,6 +9,19 @@ from datetime import timedelta
 
 
 def reltime_to_timedelta(value):
+    """Convert a relative time expression into a Python timedelta object.
+    Only a subset of Splunk's relative time syntax is supported, but many simple
+    expressions like ``7d`` (7 days), ``5m`` (5 mins), should just work.
+
+    This does *not* support snapping with ``@``.
+    Currently combining relative times addition (``+``) or subtraction (``-``)
+    is not yet supported, but should be.
+
+    :param value: Relative time expression
+    :type value: str
+    :return: python object representation of the given relative time
+    :rtype: timedelta
+    """
     pattern = re.compile(r"(\d+)([dhms]?)")
     suffix_map = {
         "s": "seconds",
@@ -33,4 +46,10 @@ def reltime_to_timedelta(value):
 
 
 def as_bool(s):
+    """Convert a boolean-like configuration field into a proper boolean.
+
+    :param s: Input string containing some form of truthy value
+    :type s: str
+    :rtype: bool
+    """
     return s.lower()[0] in ("t", "y", "e", "1")

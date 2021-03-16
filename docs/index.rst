@@ -1,5 +1,5 @@
 Welcome to Cypress Point's documentation!
-======================================
+=========================================
 
 .. toctree::
    :maxdepth: 2
