@@ -4,10 +4,10 @@ used for modular inputs to track their state between executions.
 """
 from __future__ import unicode_literals
 
-import datetime
 import json
 import os
 from copy import deepcopy
+from datetime import datetime
 from logging import getLogger
 
 from six.moves.urllib.parse import quote
