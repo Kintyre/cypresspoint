@@ -3,10 +3,9 @@
 
 from __future__ import unicode_literals
 
-
 import unittest
 
-from six import text_type, PY3
+from six import PY3, text_type
 
 from cypresspoint.spath import splunk_dot_notation
 

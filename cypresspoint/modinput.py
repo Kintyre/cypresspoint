@@ -1,15 +1,17 @@
 from __future__ import absolute_import
-# Note that 'unicode_literals' is NOT used in by this module.  This is on
-# purpose.  Using the Python 2/3 default for 'str' works perfectly here.  This
-# limitation is due to same bad behavior in the Splunk SDK, IMHO.
+
+"""
+Note that 'unicode_literals' is NOT used in by this module.  This is on
+purpose.  Using the Python 2/3 default for 'str' works perfectly here.  This
+limitation is due to same bad behavior in the Splunk SDK, IMHO.
+"""
 
 from logging import getLogger
 
-# Apply fixes to splunk-sdk
-import cypresspoint.monkeypatch  # nopep8
+# Apply fixes to splunk-sdk; this MUST occur before loading splunklib
+import cypresspoint.monkeypatch  # noqa
 
-from splunklib.modularinput import Script
-
+from splunklib.modularinput import Script  # noqa
 
 HIDDEN_PASSWORD = "*" * 8
 

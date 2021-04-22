@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import re
 
-from six import string_types, integer_types
+from six import integer_types, string_types
 
 
 def sanitize_fieldname(field):

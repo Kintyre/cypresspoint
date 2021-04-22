@@ -4,14 +4,13 @@
 
 from __future__ import unicode_literals
 
-
 __author__ = """Lowell Alleman"""
 __email__ = 'lowell@kintyre.co'
 __version__ = '0.2.1'
 
 
 def setup_logging(log_file, debug=False):
-    from logging import getLogger, Formatter, DEBUG, INFO
+    from logging import DEBUG, INFO, Formatter, getLogger
     from logging.handlers import TimedRotatingFileHandler
     log = getLogger()
     if debug:

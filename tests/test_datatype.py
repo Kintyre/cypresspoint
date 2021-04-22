@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 import unittest
 from datetime import timedelta
 
-from cypresspoint.datatype import reltime_to_timedelta, as_bool
+from cypresspoint.datatype import as_bool, reltime_to_timedelta
 
 
 class TestRelativeTime(unittest.TestCase):

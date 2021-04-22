@@ -20,9 +20,9 @@
 #
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('..'))  # nopep8
 import cypresspoint
-
 
 # -- General configuration ---------------------------------------------
 
