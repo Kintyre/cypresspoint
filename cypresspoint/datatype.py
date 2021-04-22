@@ -52,4 +52,9 @@ def as_bool(s):
     :type s: str
     :rtype: bool
     """
-    return s.lower()[0] in ("t", "y", "e", "1")
+    if s is None or isinstance(s, bool):
+        return s
+    try:
+        return s.lower()[0] in ("t", "y", "e", "1")
+    except AttributeError as e:
+        raise ValueError(e)

@@ -51,6 +51,9 @@ class TestRelativeTime(unittest.TestCase):
 
 class TestBoolConverter(unittest.TestCase):
 
-    def test_simple(self):
-        # self.assertTrue( as_bool("True") )
-        pass
+    def test_bool_text(self):
+        self.assertTrue(as_bool("True"))
+        self.assertTrue(as_bool("true"))
+        self.assertTrue(as_bool(True))
+        self.assertFalse(as_bool("No"))
+        self.assertFalse(as_bool(None))
