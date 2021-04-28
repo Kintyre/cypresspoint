@@ -1,2 +1,5 @@
+# Note that we don't use any "; python_version < '3.4'" filters here, because we use this for package building that could target Python 2 or 3
+
 six
 splunk-sdk==1.6.15
+backports.csv==1.0.7
