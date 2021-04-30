@@ -6,7 +6,7 @@ def ensure_fields(results):
     """ Ensure that the first result has a placeholder key for *ALL* the fields """
     # type: (List[dict]) - > List[dict]
     # XXX: Make this smarter by only holding a fix number of results before moving on.
-    # E.g. If no new rows have been encountered after 'n' rows then assume no new rows will be found.
+    # E.g. Assume no new fields after n rows with no new fields encountered
     field_set = set()
     output = []
     for result in results:

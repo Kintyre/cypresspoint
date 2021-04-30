@@ -32,7 +32,7 @@ class ModInputCheckpoint(object):
         self.updates = 0
 
     def __del__(self):
-        # XXX: Review this.  What are the rules about raising an exception in __del__; also, no guarantee this will be called.
+        # XXX: Review this.  What are the rules about raising an exception in __del__; no guarantees
         if self.updates > 0:
             raise Exception("You forgot to dump the checkpoint data.   Changes not saved!")
 
@@ -67,7 +67,7 @@ class ModInputCheckpoint(object):
         cp_filename_new = "{}.new-{}".format(cp_filename, os.getpid())
         try:
             with open(cp_filename_new, "w") as fp:
-                # We indent just to make it more readable if a human has to look at it.  (Minimal overhead)
+                # Indentation makes this human readable, with minimal overhead
                 json.dump(self._data, fp, indent=2, default=json_dt_converter)
 
             # Backup existing file (unless this is the first-time run)
@@ -84,8 +84,8 @@ class ModInputCheckpoint(object):
                 logger.info("Checkpoint data saved to %s.  %d entries",
                             cp_filename, len(self._data))
         except Exception:
-            logger.exception("[%s] Failure while writing out checkpoint data.  State not saved.",
-                             self.input_name)
+            logger.exception("[%s] Failure while writing out checkpoint data.  "
+                             "State not saved.", self.input_name)
             logger.warning("[%s] Emergency dump of checkpoint data to log:\n%s",
                            self.input_name, json.dumps(self._data), default=json_dt_converter)
         self.updates = 0

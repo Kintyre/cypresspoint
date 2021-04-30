@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 
 
 def _monkey_patch_splunk_xml_parser():
-    """ Need to return "APP", so we know which app contains that stanzas where we update the inputs.conf file.
+    """ Return APP to know which app contains the inputs.conf stanza
 
     <stanza name="mod_input://MyInput" app="search">
 

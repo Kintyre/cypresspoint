@@ -73,7 +73,6 @@ class ScriptWithSimpleSecret(Script):
             # Clear existing password in the input
             inputs = self.service.confs["inputs"]
             stanza = inputs[input_name]
-            ##logger.debug("PW LEAK!!!! %r", stanza.content)
             stanza.update(api_key=HIDDEN_PASSWORD)
             logger.info("Updated inputs.conf [%s] %s=%s", input_name, field, HIDDEN_PASSWORD)
             return password
