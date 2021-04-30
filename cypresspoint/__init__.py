@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 
 __author__ = """Lowell Alleman"""
 __email__ = 'lowell@kintyre.co'
-__version__ = '0.3.2'
+__version__ = '0.3.3'
 
 
 def setup_logging(log_file, debug=False):
