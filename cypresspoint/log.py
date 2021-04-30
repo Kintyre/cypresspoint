@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import sys
-from logging import Formatter, LogRecord, StreamHandler
+from logging import INFO, Formatter, LogRecord, StreamHandler
 
 
 class AlertActionFormatter(Formatter):
@@ -36,5 +36,6 @@ class AlertActionFormatter(Formatter):
 def add_simple_stderr_handler(logger, stream=None):
     handler = StreamHandler(stream)
     handler.setLevel(logger.level)
-    logger.addHandler(AlertActionFormatter())
+    handler.setFormatter(AlertActionFormatter())
+    logger.addHandler(handler)
     return handler
