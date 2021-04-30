@@ -10,7 +10,7 @@ from io import StringIO
 from logging import DEBUG, INFO, Formatter, StreamHandler, getLogger
 from logging.handlers import TimedRotatingFileHandler
 
-from cypresspoint.logging import AlertActionFormatter
+from cypresspoint.log import AlertActionFormatter
 
 
 class TestLogging(unittest.TestCase):

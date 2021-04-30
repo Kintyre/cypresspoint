@@ -1,3 +1,6 @@
+from __future__ import unicode_literals
+
+import sys
 from logging import Formatter, LogRecord
 
 
@@ -8,6 +11,16 @@ class AlertActionFormatter(Formatter):
     Format:
         [LEVEL] [MESSAGE]
     """
+
+    if sys.version_info < (3, 2):
+
+        def format(self, record):
+            # Python 2.7 workaround, as formatMessage() isn't used
+
+            # type: (LogRecord) -> str
+            record.message = record.getMessage()
+            s = self.formatMessage(record)
+            return s
 
     def formatMessage(self, record):
         # type: (LogRecord) -> str
