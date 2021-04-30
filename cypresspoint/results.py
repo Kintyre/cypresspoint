@@ -4,9 +4,9 @@
 import gzip
 import re
 import sys
-from collections import OrderedDict
 
-if sys.version_info > (3,):
+if sys.version_info < (3,):
+    # For consistent unicode support
     from backports import csv
 else:
     import csv
@@ -14,19 +14,38 @@ else:
 csv.field_size_limit(10485760)
 
 
-def expand_vars(string, context, log=None):
+_expand_styles = {
+    "$": (re.compile(r'\$([\w._]*)\$'), "$"),
+    "{}": (re.compile(r'\{([\w._-]*)\}'), "{}"),
+}
+
+
+def expand_vars(string, context, style="$", log=None):
     """ Expand vars in strings.   $var$
     Very quick-n-dirty!
+
+    Note that expanding '$var$' format only works in result fields not in
+    paramaters.  That is because Splunk already does $var$ expansion on it's on,
+    and anything that doesn't match is replaced with an empty string.  You can
+    of course use $result.fieldname$, but this only works on the first result
+    row and then you don't need this function.
+
+    Given this limitation, support for '{field}' variable expansion was added.
+    Maybe someday additional field formatting options could be supported too,
+    like what Python supports natively, but for now only simple varable
+    substitution works.
     """
+    regex, literal = _expand_styles[style]
+
     def rep(match_obj):
         var = match_obj.group(1)
         if var == "":
-            # Replace "$$" with a literal "$"
-            return "$"
+            # Replace "$$" with "$", or "{}"" with "{}"
+            return literal
         else:
             return context.get(var)
 
-    result = re.sub(r'\$([\w._]*)\$', rep, string)
+    result = regex.sub(rep, string)
     if result != string:
         if log is callable:
             log("Expanded '{}' to '{}'".format(string, result))
