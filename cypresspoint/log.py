@@ -36,5 +36,5 @@ class AlertActionFormatter(Formatter):
 def add_simple_stderr_handler(logger, stream=None):
     handler = StreamHandler(stream)
     handler.setLevel(logger.level)
-    logger.setFormatter(AlertActionFormatter())
+    logger.addHandler(AlertActionFormatter())
     return handler
