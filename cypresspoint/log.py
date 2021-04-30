@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import sys
-from logging import Formatter, LogRecord
+from logging import Formatter, LogRecord, StreamHandler
 
 
 class AlertActionFormatter(Formatter):
@@ -31,3 +31,10 @@ class AlertActionFormatter(Formatter):
     def formatException(self, exec_info):
         """ Just suppress because any output here triggers a multiline event. """
         return ""
+
+
+def add_simple_stderr_handler(logger, stream=None):
+    handler = StreamHandler(stream)
+    handler.setLevel(logger.level)
+    logger.setFormatter(AlertActionFormatter())
+    return handler
