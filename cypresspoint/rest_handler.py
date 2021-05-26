@@ -91,6 +91,28 @@ class RequestInfo(object):
         self.query = query
         self.raw_args = raw_args
 
+    def get_service(self, app=None):
+        # type: (RequestInfo) -> splunklib.client.Session
+        import splunklib.client
+
+        # from six.moves.urllib.parse import urlparse
+        # Could also use urlparse(self._request["server"]["rest_uri"])
+
+        ns = self.raw_args["ns"]
+        connection = self.raw_args["connection"]
+        kw = {}
+        if "user" in ns:
+            kw["owner"] = self.user
+        service = splunklib.client.connect(
+            host=connection["src_ip"],
+            port=connection["listening_port"],
+            scheme="https" if connection["ssl"] else "http",
+            # username=session["user"],  # If username is provided splunklib attempts to login()
+            token=self.session_key,
+            app=app or ns["app"],
+            autologin=False, **kw)
+        return service
+
 
 class RESTHandler(PersistentServerConnectionApplication):
     """
