@@ -11,4 +11,4 @@ Development Lead
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Luke Murphey wrote the ``rest_handler.py`` module (MIT license)
