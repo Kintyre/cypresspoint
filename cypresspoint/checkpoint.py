@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 import json
 import os
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, timedelta
 from logging import getLogger
 
 from six.moves.urllib.parse import quote
@@ -27,9 +27,11 @@ class ModInputCheckpoint(object):
         self.checkpoint_dir = checkpoint_dir
         self.input_name = input_name
         self.filename = self._safe_filename(checkpoint_dir, input_name)
+        self.dump_after_updates = 10
         self._data = None
         self.default_item = KeyError
         self.updates = 0
+        self._last_dump = None
 
     def __del__(self):
         # XXX: Review this.  What are the rules about raising an exception in __del__; no guarantees
@@ -59,7 +61,24 @@ class ModInputCheckpoint(object):
             else:
                 self._data = {}
 
-    def dump(self):
+    def dump_on_interval(self, delta):
+        """ Dump to disk if interval has elapsed even if dump_after_updates
+        hasn't been reached.  This is helpful for long-lived modular inputs.
+
+        A dump will also occur the very first time this function is called.
+        """
+        # type: (timedelta)
+        now = datetime.now()
+        if self._last_dump:
+            if self.updates == 0:
+                return False
+            age = now - self._last_dump
+            if age < delta:
+                return False
+        self.dump(_now=now)
+        return True
+
+    def dump(self, _now=None):
         # Safely write out checkpoint data; this should avoid MOST common issues
         cp_filename = self.filename
 
@@ -89,6 +108,7 @@ class ModInputCheckpoint(object):
             logger.warning("[%s] Emergency dump of checkpoint data to log:\n%s",
                            self.input_name, json.dumps(self._data), default=json_dt_converter)
         self.updates = 0
+        self._last_dump = _now or datetime.now()
 
     def __getitem__(self, item):
         try:
@@ -110,5 +130,5 @@ class ModInputCheckpoint(object):
     def __setitem__(self, key, value):
         self._data[key] = value
         self.updates += 1
-        if self.updates >= 10:
+        if self.updates >= self.dump_after_updates:
             self.dump()
