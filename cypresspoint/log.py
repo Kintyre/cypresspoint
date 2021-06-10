@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 import sys
-from logging import INFO, Formatter, LogRecord, StreamHandler
+from logging import Formatter, LogRecord, StreamHandler
 
 
 class AlertActionFormatter(Formatter):

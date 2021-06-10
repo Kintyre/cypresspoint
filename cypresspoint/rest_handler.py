@@ -253,8 +253,8 @@ class RESTHandler(PersistentServerConnectionApplication):
                 return function_to_call(request_info, **query)
             else:
                 if self.logger is not None:
-                    self.logger.warn("A request could not be executed since the associated function " +
-                                     "is missing, name=%s", function_name)
+                    self.logger.warn("A request could not be executed since the associated "
+                                     "function is missing, name=%s", function_name)
 
                 return {
                     'payload': 'Path was not found',

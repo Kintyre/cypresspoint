@@ -22,7 +22,7 @@ def _dict_to_splunk_fields(obj, prefix=()):
 
     Convention:  Arrays suffixed with "{}"
     """
-    # type: (Any[dict,list,str,int,float]) -> List[Tuple[Tuple[str]], Any]
+    # type: ignore (Any[dict,list,str,int,float]) -> List[Tuple[Tuple[str]], Any]
     output = []
     if isinstance(obj, dict):
         for key, value in obj.items():
