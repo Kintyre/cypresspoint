@@ -88,6 +88,7 @@ class ModInputCheckpoint(object):
             with open(cp_filename_new, "w") as fp:
                 # Indentation makes this human readable, with minimal overhead
                 json.dump(self._data, fp, indent=2, default=json_dt_converter)
+                cp_file_size = fp.tell()
 
             # Backup existing file (unless this is the first-time run)
             if os.path.isfile(cp_filename):
@@ -100,8 +101,8 @@ class ModInputCheckpoint(object):
             # Move NEW checkpoint data (temporary file) into place
             os.rename(cp_filename_new, cp_filename)
             if self._data is not None:
-                logger.info("Checkpoint data saved to %s.  %d entries",
-                            cp_filename, len(self._data))
+                logger.info("Checkpoint data saved file=%s entries=%d bytes=%d",
+                            cp_filename, len(self._data), cp_file_size)
         except Exception:
             logger.exception("[%s] Failure while writing out checkpoint data.  "
                              "State not saved.", self.input_name)
