@@ -133,3 +133,8 @@ class ModInputCheckpoint(object):
         self.updates += 1
         if self.updates >= self.dump_after_updates:
             self.dump()
+
+    def setdefault(self, key, default):
+        if key not in self._data:
+            self._data[key] = default
+        return self._data[key]
