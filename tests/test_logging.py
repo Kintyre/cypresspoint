@@ -49,7 +49,7 @@ class TestLogging(unittest.TestCase):
         logger = self.setup_logger(DEBUG)
         try:
             raise ValueError("can't do it capt'n!")
-        except:
+        except Exception:
             logger.exception("Enterprise down")
         content = self.stream.getvalue()
         self.assertEqual(content, "ERROR Enterprise down\n")

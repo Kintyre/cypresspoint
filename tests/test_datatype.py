@@ -20,6 +20,10 @@ class TestRelativeTime(unittest.TestCase):
         self.assertEqual(f("6m"), td(minutes=6))
         self.assertEqual(f("90s"), td(seconds=90))
         self.assertEqual(f("90"), td(seconds=90))
+        self.assertEqual(f("1mon"), td(days=30))
+        self.assertEqual(f("13mon"), td(days=13*30))
+        self.assertEqual(f("9weeks"), td(days=7*9))
+        self.assertEqual(f("3y"), td(days=3*365))
 
     @unittest.expectedFailure
     def test_combos(self):
