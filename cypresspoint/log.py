@@ -9,8 +9,7 @@ class AlertActionFormatter(Formatter):
         [LEVEL] [MESSAGE]
     """
 
-    def formatMessage(self, record):
-        # type: (LogRecord) -> str
+    def formatMessage(self, record: LogRecord) -> str:
         # If stack trace has already been cached (exc_text), remove it to prevent it from being written
         if hasattr(record, "exc_text") and record.exc_text:
             record.exc_text = None

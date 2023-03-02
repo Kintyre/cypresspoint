@@ -59,13 +59,12 @@ class ModInputCheckpoint(object):
             else:
                 self._data = {}
 
-    def dump_on_interval(self, delta):
+    def dump_on_interval(self, delta: timedelta) -> bool:
         """ Dump to disk if interval has elapsed even if dump_after_updates
         hasn't been reached.  This is helpful for long-lived modular inputs.
 
         A dump will also occur the very first time this function is called.
         """
-        # type: (timedelta)
         now = datetime.now()
         if self._last_dump:
             if self.updates == 0:

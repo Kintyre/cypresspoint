@@ -6,7 +6,7 @@ import re
 from datetime import timedelta
 
 
-def reltime_to_timedelta(value):
+def reltime_to_timedelta(value: str) -> timedelta:
     """Convert a relative time expression into a Python timedelta object.
     Only a subset of Splunk's relative time syntax is supported, but many simple
     expressions like ``7d`` (7 days), ``5m`` (5 mins), ``6mon`` (6 months),
