@@ -1,11 +1,3 @@
-from __future__ import absolute_import
-
-"""
-Note that 'unicode_literals' is NOT used in by this module.  This is on
-purpose.  Using the Python 2/3 default for 'str' works perfectly here.  This
-limitation is due to same bad behavior in the Splunk SDK, IMHO.
-"""
-
 from logging import getLogger
 
 # Apply fixes to splunk-sdk; this MUST occur before loading splunklib
@@ -18,7 +10,7 @@ HIDDEN_PASSWORD = "*" * 8
 
 class ScriptWithSimpleSecret(Script):
     """ Class that extends Splunk's default 'Script' that allows for very basic
-    storage of a secret value.  Note that this techincally results in a
+    storage of a secret value.  Note that this technically results in a
     race-condition where the unencrypted secret is exposed for some short period
     of time.  Therefore this shouldn't be used in high security scenarios or on
     servers with many snooping users, but for private use apps on a dedicated
@@ -30,7 +22,7 @@ class ScriptWithSimpleSecret(Script):
         super(ScriptWithSimpleSecret, self).__init__(*args, **kwargs)
         self.logger = getLogger(self.__class__.__name__)
 
-    def handle_secret(self, input_name, password, app=None):
+    def handle_secret(self, input_name: str, password: str, app: str = None) -> str:
         """
         Get, Set, or Update secret field as needed.
 
@@ -40,13 +32,12 @@ class ScriptWithSimpleSecret(Script):
 
         :param str input_name: Stanza in ``inputs.conf`` of the modular input
         :param str password: The recipient of the message
-        :param app: The splunk app namesspace to use for REST interactions
+        :param app: The splunk app namespace to use for REST interactions
                     against inputs and password endpoints
         :type app: str or None
         :return: the clear-text password
         :rtype: str
         """
-        # type: (str, str, str) -> str
         if app:
             self.service.namespace.app["app"] = app
         field = self.secret_field

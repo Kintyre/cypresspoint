@@ -2,15 +2,13 @@
 Simple checkpoint tracking helper class with dictionary-like access.  This is
 used for modular inputs to track their state between executions.
 """
-from __future__ import unicode_literals
 
 import json
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta
 from logging import getLogger
-
-from six.moves.urllib.parse import quote
+from urllib.parse import quote
 
 logger = getLogger("cypresspoint.checkpoint")
 

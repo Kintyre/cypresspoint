@@ -66,8 +66,12 @@ import json
 import os
 import re
 import sys
+from typing import TYPE_CHECKING
 
 from splunk.persistconn.application import PersistentServerConnectionApplication
+
+if TYPE_CHECKING:
+    from splunklib.client import Session
 
 if sys.platform == "win32":
     import msvcrt
@@ -91,10 +95,10 @@ class RequestInfo(object):
         self.query = query
         self.raw_args = raw_args
 
-    def get_service(self, app=None):
-        # type: (RequestInfo) -> splunklib.client.Session
+    def get_service(self, app: "RequestInfo" = None) -> Session:
+        from urllib.parse import urlparse
+
         import splunklib.client
-        from six.moves.urllib.parse import urlparse
         url = urlparse(self.raw_args["server"]["rest_uri"])
         ns = self.raw_args["ns"]
         kw = {}

@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-
 import unittest
-
-from six import PY3, text_type
 
 from cypresspoint.spath import splunk_dot_notation
 
@@ -56,7 +52,8 @@ class TestSpath(unittest.TestCase):
 
     def test_unicode(self):
         # Reproduce bug found between Python 2 vs 3
-        splunk_dot_notation({"a": text_type("value")})
+        # TODO:  Figure out if this is still needed in PY3 only word?
+        splunk_dot_notation({"a": str("value")})
 
     def test_bool_to_text(self):
         d = {
@@ -65,9 +62,8 @@ class TestSpath(unittest.TestCase):
         }
         self.assertEqual(splunk_dot_notation(d), {"t": "true", "f": "false"})
 
-    @unittest.skipIf(PY3, "Long datatype doesn't exist in Python 3")
     def test_long(self):
-        l = long(10000000000000000000000000000)
+        l = 10000000000000000000000000000
         self.assertEqual(splunk_dot_notation({"a": l}), {"a": l})
 
     def test_nested01(self):

@@ -2,8 +2,6 @@
 
 """Top-level package for Cypress Point."""
 
-from __future__ import unicode_literals
-
 __author__ = """Lowell Alleman"""
 __email__ = 'lowell@kintyre.co'
 __version__ = '0.7.4'

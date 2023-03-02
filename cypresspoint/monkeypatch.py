@@ -3,8 +3,6 @@
 NOTE: Simply importing this module will activate the monkeypatch.
 """
 
-from __future__ import unicode_literals
-
 
 def _monkey_patch_splunk_xml_parser():
     """ Return APP to know which app contains the inputs.conf stanza
