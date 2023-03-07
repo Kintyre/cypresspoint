@@ -69,7 +69,7 @@ import sys
 from urllib.parse import urlparse
 
 from splunk.persistconn.application import PersistentServerConnectionApplication
-from splunklib.client import Session, connect
+from splunklib.client import Service, connect
 
 if sys.platform == "win32":
     import msvcrt
@@ -85,7 +85,12 @@ class RequestInfo(object):
     This represents the request.
     """
 
-    def __init__(self, user, session_key, method, path, query, raw_args):
+    def __init__(self, user: str,
+                 session_key: str,
+                 method: str,
+                 path: str,
+                 query,
+                 raw_args: dict):
         self.user = user
         self.session_key = session_key
         self.method = method
@@ -93,7 +98,7 @@ class RequestInfo(object):
         self.query = query
         self.raw_args = raw_args
 
-    def get_service(self, app: "RequestInfo" = None) -> Session:
+    def get_service(self, app: "RequestInfo" = None) -> Service:
         url = urlparse(self.raw_args["server"]["rest_uri"])
         ns = self.raw_args["ns"]
         kw = {}
