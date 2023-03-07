@@ -4,7 +4,7 @@
 
 __author__ = """Lowell Alleman"""
 __email__ = 'lowell@kintyre.co'
-__version__ = '0.8.0'
+__version__ = '0.8.1'
 
 
 def setup_logging(log_file, debug=False, formatter=None, when="midnight",
